@@ -1,117 +1,152 @@
-import React, {Component} from "react"
-import styledComponents from "styled-components"
-// import { BrowserRouter as Router, Link, Routes, Route } from "react-router-dom"
-import LogoTodoflix from "./images/todoflix.png"
-import SetaBaixo from "./images/setaBaixo.png"
-import Usuario from "./images/usuario.png"
+import React, { Component } from "react";
+import styled from "styled-components";
+import { createGlobalStyle } from "styled-components";
+import Todoflix from "./Images/todoflix.png";
+import Usuario from "./Images/usuario.png";
+import SetaBaixo from "./Images/setaBaixo.png";
+import Home from "./Rotas/Home";
+import { BrowserRouter as Router, Link, Routes, Route } from "react-router-dom";
+import Todos from "./Rotas/Todos";
 
+const GlobalStyle = createGlobalStyle`
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+    text-decoration: none;
+  }
+`;
 
-const SectionHeader = styledComponents.section`
-width: 100%;
-background-color: black;
-height: 10vh;
-display: flex;
-align-items: center;
-justify-content: space-between;
-`
+const DivHeader = styled.div`
+  width: 100%;
+  height: 15vh;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
-const LeftDivHeader = styledComponents.div`
+const DivLeftHeader = styled.div`
   // background-color: grey;
   width: 30%;
-  height: 8vh;
-  padding-left: 50px;
+  margin-left: 45px;
   display: flex;
-  justify-content: space-around;
-  color: white;
   align-items: center;
-  font-weight: 500;
-`
-
-const DivCategoria = styledComponents.div`
-  display: flex;
-`
-
-const DivInicio = styledComponents.div`
-  padding-bottom: 8px;
-`
-
-const RightDivHeader = styledComponents.div`
-  //  background-color: grey;
-   width: 40%;
-   height: 5vh;
-   padding-right: 30px;
-   display: felx;
-   justify-content: space-around;
-`
-
-const AddInputDiv = styledComponents.div`
-  // background-color: pink;
-  width: 80%;
-  display: flex;
   justify-content: space-around;
-`
+`;
 
-const ButtonHeader = styledComponents.button`
-  background-color: 	#DC143C;
-  height: 5vh;
+const ButtonCategorias = styled.button`
+  width: 120px;
+  height: 30px;
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 1em;
+`;
+
+const DivRightHeader = styled.div`
+  width: 40%;
+  height: 10vh;
+  // background-color: grey;
+  display: flex;
+  align-items: center;
+  margin-right: 45px;
+  justify-content: space-around;
+`;
+
+const ButtonAddFilmes = styled.button`
+  width: 120px;
+  height: 50px;
+  background-color: #dc143c;
+  border: none;
+  border-radius: 5px;
+  color: white;
+`;
+
+const InputHeader = styled.input`
+  width: 50%;
+  height: 3vh;
+  border-radius: 5px;
   border-color: white;
   color: white;
-  border-radius: 8px;
-  border-width: 0.5px;
-`
-
-const InputHeader = styledComponents.input`
-  width: 68%;
-  height: 3vh;
   background: transparent;
-  border-color: white;
-  border-radius: 5px;
-  border-width: 0.5px;
-  margin-top: 5px;
+`;
 
+const UlRotas = styled.ul`
+  position: absolute;
+  // border: solid white;
+  color: white;
+  background-color: black;
+  list-style: none;
+  width: 10vw;
+  height: 20vh;
+  top: 10%;
+  left: 24%;
+`;
 
-`
+const LiRotas = styled.li`
+  height: 5vh;
+  font-size: 1em;
+`;
 
-const UserDiv = styledComponents.div`
-  padding-left: 5px;
-`
+export default class App extends Component {
+  state = {
+    boxCategorias: false
+  };
 
-export default class App extends Component{
+  handleCategorias = () => {
+    this.setState({ boxCategorias: !this.state.boxCategorias });
+  };
 
+  render() {
+    return (
+      <Router>
+        <GlobalStyle />
 
-
-  render(){
-    return(
-      <SectionHeader>
-
-        <LeftDivHeader>
-          <div><img src={LogoTodoflix} alt="TodoLogo"/></div>
-          <DivInicio>Início</DivInicio>
+        <DivHeader>
           
-          <DivCategoria>Categoria
-            <a href="/"><img src={SetaBaixo} alt="seta-para-baixo"/></a>
-          </DivCategoria>
+            <DivLeftHeader>
+              <img src={Todoflix} alt="Todoflix" />
 
-        </LeftDivHeader>
+              <Link to="/">Início</Link>
 
-        <RightDivHeader>
+              <ButtonCategorias onClick={this.handleCategorias}>
+                Categorias ▼
+              </ButtonCategorias>
+              {this.state.boxCategorias && (
+                <UlRotas>
+                  <LiRotas>
+                    <Link to="/todos">Todos</Link>
+                  </LiRotas>
+                  <LiRotas>Favoritos</LiRotas>
+                  <LiRotas>Ja Vistos</LiRotas>
+                  <LiRotas>Adicionados</LiRotas>
+                </UlRotas>
+              )}
+            </DivLeftHeader>
 
-          <AddInputDiv>
-            <ButtonHeader>Adicionar Filme</ButtonHeader>
 
-            <InputHeader placeholder="Pesquise aqui"/>
-          </AddInputDiv>
+          
 
+          <DivRightHeader>
+            <ButtonAddFilmes>Adicionar filmes</ButtonAddFilmes>
 
-          <UserDiv>
-            <img src={Usuario} alt="usuario"/>
-            <a href="/"><img src={SetaBaixo} alt="seta-para-baixo"/></a>
-          </UserDiv>
+            <InputHeader type="text" placeholder="🔎 Pesquisar" />
 
-        </RightDivHeader>
+            <div>
+              <img src={Usuario} alt="usuario" />
+              <img src={SetaBaixo} alt="seta-para-baixo" />
+            </div>
+          </DivRightHeader>
+        </DivHeader>
 
-      </SectionHeader>
-    )
+        <Routes>
+          <Route path="/" element={<Home />} /> 
+            <Route path="/todos" element={<Todos />} />
+            </Routes>
+        </Router>
+    );
   }
 }
 
