@@ -5,45 +5,65 @@ import HomemAranha from "../Images/homem-aranha.png";
 import VoltarSozinho from "../Images/hoje-eu-quero-voltar-sozinho.png";
 import HorasVolta from "../Images/que-horas-ela-volta.png";
 import SonhoLiberdade from "../Images/um-sonho-de-liberdade.png";
+import Umma from "../Images/Umma.jpg"
 
-const DivPrincipal = styled.div`
-  background-color: black;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const DivTodos = styled.div`
-    // background-color: grey; 
-    width: 15vw;
-    height: 100%;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    
-
-`;
-
-const DivElementos = styled.div`
-  width: 80%;
-  height: 30%;
-//   background-color: pink;
-`;
 
 const H1Todos = styled.h1`
     font-size: 1em;
 `
-
-const ImgTodos = styled.img`
-    width: 100%;
+const PTodos = styled.p`
+  font-size: 0.7em;
 `
 
-const ParagrafoTodos = styled.p`
-    font-size: 0.5em;
+const InputTodos = styled.input`
+  position: relative;
+  bottom: 55px;
+  left: 69%;
+  border-radius: 5px;
+  border-color: white;
+  color: white;
+  background: transparent;
+  width: 245px;
 `
+
+
+const DivEngloba = styled.div`
+  background-color: black;
+  width: 100%;
+  height: 400vh;
+  display: flex;
+  flex-direction: column;
+`
+
+const DivFilmes = styled.div`
+  // background-color: grey;
+  width: 30%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 5%;
+  padding-bottom: 5%;
+`
+
+const DivEstab = styled.div`
+  width: 70%;
+  height: 100vh;
+  // background-color: pink;
+  position: relative;
+  left: 10%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  
+`
+
+
 
 export default class Body extends Component {
+
+
+
   state = {
     filmes: [
       {
@@ -75,24 +95,55 @@ export default class Body extends Component {
         nome: "Um Sonho de Liberdade",
         description:
           "Condenado pelo assassinato da esposa e do amante dela, um banqueiro se apega à esperança e à amizade com um detento chamado Red para sobreviver à prisão."
-      }
-    ]
+      },
+      {
+        img: Umma,
+        nome: "Umma",
+        description:
+          "Amanda e sua filha vivem uma vida tranquila em uma fazenda americana, mas quando os restos mortais de sua mãe, com quem não tinha muito contato, chegam da Coréia, Amanda fica assombrada pelas memórias e o medo de se transformar em sua própria mãe."
+      },
+    ],
+
+    filmesFiltrados: []
   };
 
+  filtro = (event) =>{
+    this.setState({filmesFiltrada : this.state.filmes})
+
+    const filtro = this.state.filmesFiltrados.filter((item) =>{
+        if(item.nome.toLowerCase().includes(event.target.value.toLowerCase())){
+            return true
+        }
+    })
+    this.setState({filmesFiltrados : filtro})
+}
+
+componentDidMount (){
+    this.setState({filmesFiltrados: this.state.filmes})
+}
 
   render() {
     return (
-      <DivPrincipal>
-        {this.state.filmes.map((item) => (
-          <DivTodos>
-              <DivElementos>
-            <ImgTodos src={item.img} alt={item.nome} />
-            <H1Todos>{item.nome}</H1Todos>
-            <ParagrafoTodos>{item.description}</ParagrafoTodos>
-            </DivElementos>
-          </DivTodos>
-        ))}
-      </DivPrincipal>
+      <div>
+
+
+      <DivEngloba>
+        
+          <InputTodos onChange={this.filtro} type="text" placeholder="🔎 Pesquisar"/>
+        <DivEstab>
+        {this.state.filmesFiltrados.map(item =>
+          (
+            <DivFilmes>
+              <H1Todos>{item.nome}</H1Todos>
+              <img src={item.img}/>
+              <PTodos>{item.description}</PTodos>
+            </DivFilmes>
+          )
+          )}
+          </DivEstab>
+      </DivEngloba>
+
+      </div>
     );
   }
 }

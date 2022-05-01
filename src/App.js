@@ -132,7 +132,7 @@ export default class App extends Component {
           <DivRightHeader>
             <ButtonAddFilmes>Adicionar filmes</ButtonAddFilmes>
 
-            <InputHeader type="text" placeholder="🔎 Pesquisar" />
+            <InputHeader type="text" />
 
             <div>
               <img src={Usuario} alt="usuario" />
